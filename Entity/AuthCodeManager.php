@@ -73,8 +73,8 @@ class AuthCodeManager extends BaseAuthCodeManager
      */
     public function deleteAuthCode(AuthCodeInterface $authCode)
     {
-        $this->em->remove($authCode);
-        $this->em->flush();
+        //$this->em->remove($authCode);
+        //$this->em->flush();
     }
 
     /**
