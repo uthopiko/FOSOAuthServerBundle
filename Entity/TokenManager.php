@@ -86,4 +86,12 @@ class TokenManager extends BaseTokenManager
 
         return $qb->getQuery()->execute();
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function findAuthCodeByToken($token)
+    {
+        return $this->em->getRepository('VeissBoletusBundle:AuthCode')->findOneBy(array('token'=>$token));
+    }
 }

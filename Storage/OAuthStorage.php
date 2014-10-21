@@ -16,6 +16,7 @@ use FOS\OAuthServerBundle\Model\RefreshTokenManagerInterface;
 use FOS\OAuthServerBundle\Model\AuthCodeManagerInterface;
 use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use FOS\OAuthServerBundle\Model\ClientInterface;
+use Symfony\Component\Debug\Debug;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -140,6 +141,20 @@ class OAuthStorage implements IOAuth2RefreshTokens, IOAuth2GrantUser, IOAuth2Gra
         $this->accessTokenManager->updateToken($token);
 
         return $token;
+    }
+    
+    public function updateAccessToken($data, $user)
+    {
+        $token = $this->accessTokenManager->findTokenByToken($data->access_token);
+        $token->setUser($user);
+        $this->accessTokenManager->updateToken($token);
+        return $token;
+    }
+
+    public function getUserFromAuthCode($code) {
+        $user = $this->accessTokenManager->findAuthCodeByToken($code);
+
+        return $user->getUser();
     }
 
     public function checkRestrictedGrantType(IOAuth2Client $client, $grant_type)
